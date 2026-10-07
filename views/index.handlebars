@@ -1,0 +1,99 @@
+{{#if flash}}
+  <div class="msg">
+    {{flash.message}}
+  </div>
+{{/if}}
+
+<h2>1. Thêm sách mới (Luồng Ghi)</h2>
+<form action="/books" method="POST" id="addBookForm">
+  <div class="form-group">
+    <label for="bookCode">Mã sách (tiền tố {{student.requiredPrefix}}):</label>
+    <input type="text" id="bookCode" name="bookCode" value="{{student.requiredPrefix}}-" required>
+    <span id="prefixCheckText"></span>
+  </div>
+
+  <div class="form-group">
+    <label for="title">Tên sách:</label>
+    <input type="text" id="title" name="title" required>
+  </div>
+
+  <div class="form-group">
+    <label for="author">Tác giả:</label>
+    <input type="text" id="author" name="author" required>
+  </div>
+
+  <div class="form-group">
+    <label for="category">Thể loại:</label>
+    <select id="category" name="category">
+      <option value="Điện toán đám mây">Điện toán đám mây</option>
+      <option value="Cơ sở dữ liệu">Cơ sở dữ liệu</option>
+      <option value="Lập trình Web">Lập trình Web</option>
+      <option value="Mạng máy tính">Mạng máy tính</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="originalPrice">Giá gốc (VNĐ):</label>
+    <input type="number" id="originalPrice" name="originalPrice" min="0" required>
+  </div>
+
+  <div class="form-group">
+    <label>Mức thuế VAT:</label>
+    <span>{{student.vatRate}}%</span>
+  </div>
+
+  <div class="form-group">
+    <label>Giá sau thuế tính toán:</label>
+    <b id="previewFinalPrice">0 VNĐ</b>
+  </div>
+
+  <div>
+    <button type="submit">Lưu sách vào Cloud</button>
+  </div>
+</form>
+
+<hr>
+
+<h2>2. Danh sách sách (Luồng Đọc)</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Mã sách</th>
+      <th>Tên sách</th>
+      <th>Tác giả</th>
+      <th>Thể loại</th>
+      <th>Giá gốc</th>
+      <th>VAT</th>
+      <th>Giá sau thuế</th>
+      <th>Ngày tạo</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#if books.length}}
+      {{#each books}}
+        <tr>
+          <td>{{this.bookCode}}</td>
+          <td>{{this.title}}</td>
+          <td>{{this.author}}</td>
+          <td>{{this.category}}</td>
+          <td>{{this.formattedOriginalPrice}}</td>
+          <td>{{this.vatPercent}}%</td>
+          <td>{{this.formattedFinalPrice}}</td>
+          <td>{{this.formattedDate}}</td>
+        </tr>
+      {{/each}}
+    {{else}}
+      <tr>
+        <td colspan="8" style="text-align: center;">Chưa có dữ liệu sách trong database DB_{{student.mssv}}.</td>
+      </tr>
+    {{/if}}
+  </tbody>
+</table>
+
+<hr>
+
+<h2>3. Kiểm tra phân quyền (Least Privilege)</h2>
+<p>Thử gửi thao tác ghi thông qua tài khoản đọc:</p>
+<form action="/books/test-unauthorized-write" method="POST">
+  <button type="submit">Kiểm tra ghi bằng tài khoản Read</button>
+</form>
