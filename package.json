@@ -1,0 +1,27 @@
+{
+  "name": "cloud-book-management",
+  "version": "1.0.0",
+  "description": "Midterm Cloud Computing Project - Book Management with Least Privilege and Stateless Architecture",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "node --watch src/app.js"
+  },
+  "keywords": [
+    "cloud",
+    "mongodb-atlas",
+    "stateless",
+    "express",
+    "handlebars"
+  ],
+  "author": "Vo Ngoc Bao - 23ITB010",
+  "license": "ISC",
+  "dependencies": {
+    "connect-mongo": "^5.1.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-handlebars": "^8.0.1",
+    "express-session": "^1.18.1",
+    "mongoose": "^8.10.1"
+  }
+}
